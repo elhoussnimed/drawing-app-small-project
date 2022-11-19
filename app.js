@@ -15,29 +15,29 @@ const canvas = document.querySelector("#canvas");
 canvas.setAttribute("width", parentWidth);
 canvas.setAttribute("height", parentHeight - 50);
 const ctx = canvas.getContext("2d");
-ctx.lineWidth = lineWidth;
-ctx.strokeStyle = getColor.value;
 
 // draw on the canvas
-canvas.addEventListener("mousemove", (e) => {
-  drawing(e);
-});
-
 canvas.addEventListener("mousedown", (e) => {
   draw = true;
   drawing(e);
 });
 
+canvas.addEventListener("mousemove", (e) => {
+  drawing(e);
+});
+
 canvas.addEventListener("mouseup", () => {
   draw = false;
+  ctx.beginPath();
 });
 
 function drawing(e) {
   if (!draw) return;
-  let x = e.clientX;
-  let y = e.clientY;
-  ctx.beginPath();
-  ctx.lineTo(x - canvas.offsetLeft, y - canvas.offsetTop);
+  let x = e.clientX - canvas.offsetLeft;
+  let y = e.clientY - canvas.offsetTop;
+  ctx.lineWidth = lineWidth;
+  ctx.strokeStyle = getColor.value;
+  ctx.lineTo(x, y);
   ctx.lineCap = "round";
   ctx.stroke();
 }
